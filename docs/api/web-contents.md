@@ -1393,11 +1393,13 @@ An example of showing devtools in a `<webview>` tag:
   <webview id="browser" src="https://github.com"></webview>
   <webview id="devtools"></webview>
   <script>
+    const { webContents } = require('electron').remote
     const browserView = document.getElementById('browser')
     const devtoolsView = document.getElementById('devtools')
     browserView.addEventListener('dom-ready', () => {
-      const browser = browserView.getWebContents()
-      browser.setDevToolsWebContents(devtoolsView.getWebContents())
+      const browser = webContents.fromId(browserView.getWebContentsId())
+      const devtools = webContents.fromId(devtoolsView.getWebContentsId())
+      browser.setDevToolsWebContents(devtools)
       browser.openDevTools()
     })
   </script>
